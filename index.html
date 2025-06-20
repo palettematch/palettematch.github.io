@@ -498,33 +498,33 @@
                 </div>
                 <div class="hero-visual">
                     <div class="logo-container">
-                        <svg class="logo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <filter id="glow">
-                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
-                                    <feMerge> 
-                                        <feMergeNode in="coloredBlur"/>
-                                        <feMergeNode in="SourceGraphic"/>
-                                    </feMerge>
-                                </filter>
-                            </defs>
-                            <circle cx="200" cy="200" r="190" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
-                            <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                        <svg class="logo" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Background Circle -->
+                            <circle cx="64" cy="64" r="60" fill="#f9f9f9" stroke="#e0e0e0" stroke-width="2"/>
                             
-                            <!-- Spring segments -->
-                            <path d="M 200 50 A 150 150 0 0 1 306.066 143.934 L 200 200 Z" fill="#FFD700" filter="url(#glow)"/>
-                            <path d="M 306.066 143.934 A 150 150 0 0 1 306.066 256.066 L 200 200 Z" fill="#90EE90" filter="url(#glow)"/>
+                            <!-- Color Palette Circle -->
+                            <g>
+                                <!-- Spring -->
+                                <path d="M64,64 L64,24 A40,40 0 0,1 98.28,45.72 Z" fill="#8fd14f"/>
+                                
+                                <!-- Summer -->
+                                <path d="M64,64 L98.28,45.72 A40,40 0 0,1 98.28,82.28 Z" fill="#60a5fa"/>
+                                
+                                <!-- Autumn -->
+                                <path d="M64,64 L98.28,82.28 A40,40 0 0,1 64,104 Z" fill="#d97706"/>
+                                
+                                <!-- Winter -->
+                                <path d="M64,64 L64,104 A40,40 0 0,1 29.72,82.28 Z" fill="#7c3aed"/>
+                                
+                                <!-- Winter to Spring -->
+                                <path d="M64,64 L29.72,82.28 A40,40 0 0,1 29.72,45.72 Z" fill="#db2777"/>
+                                
+                                <!-- Spring transition -->
+                                <path d="M64,64 L29.72,45.72 A40,40 0 0,1 64,24 Z" fill="#facc15"/>
+                            </g>
                             
-                            <!-- Summer segments -->
-                            <path d="M 306.066 256.066 A 150 150 0 0 1 200 350 L 200 200 Z" fill="#87CEEB" filter="url(#glow)"/>
-                            <path d="M 200 350 A 150 150 0 0 1 93.934 256.066 L 200 200 Z" fill="#DDA0DD" filter="url(#glow)"/>
-                            
-                            <!-- Autumn segments -->
-                            <path d="M 93.934 256.066 A 150 150 0 0 1 93.934 143.934 L 200 200 Z" fill="#CD853F" filter="url(#glow)"/>
-                            <path d="M 93.934 143.934 A 150 150 0 0 1 200 50 L 200 200 Z" fill="#FF69B4" filter="url(#glow)"/>
-                            
-                            <circle cx="200" cy="200" r="40" fill="white" filter="url(#glow)"/>
-                            <text x="200" y="210" text-anchor="middle" fill="#333" font-family="Lato" font-size="14" font-weight="bold">PM</text>
+                            <!-- Subtle highlight for depth -->
+                            <circle cx="64" cy="64" r="32" fill="none" stroke="white" stroke-width="1" stroke-opacity="0.5"/>
                         </svg>
                     </div>
                 </div>
