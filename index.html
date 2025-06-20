@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palette Match - Your Shopping Color Assistant</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-size-body: 14px;
+            --font-size-h1: 48px;
+            --font-size-h2: 40px;
+            --font-size-h3: 24px;
+            --font-size-h4: 20px;
+            --font-size-h5: 18px;
+            --font-size-h6: 16px;
+            --font-line-height-body: 1.57;
+            --font-line-height-h1: 1.2;
+            --font-line-height-h2: 1.25;
+            --font-line-height-h3: 1.33;
+            --font-line-height-h4: 1.4;
+            --font-line-height-h5: 1.45;
+            --font-line-height-h6: 1.625;
+            --letter-spacing-h1: 0.1em;
+            --letter-spacing-h2: 0.1em;
+            --letter-spacing-h3: 0.1em;
+            --letter-spacing-h4: 0.1em;
+            --letter-spacing-h5: 0.1em;
+            --letter-spacing-h6: 0.1em;
+            --letter-spacing-body: 0.05em;
+            --font-stack-primary: Lato, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-stack-secondary: "Ophian", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            
+            --spring-light: #FFB6C1;
+            --spring-true: #FFD700;
+            --spring-bright: #FF69B4;
+            --summer-light: #E6E6FA;
+            --summer-true: #DDA0DD;
+            --summer-soft: #9370DB;
+            --autumn-soft: #D2B48C;
+            --autumn-true: #CD853F;
+            --autumn-deep: #8B4513;
+            --winter-deep: #191970;
+            --winter-true: #0000FF;
+            --winter-bright: #FF1493;
+        }
+
+        @font-face {
+            font-display: swap;
+            font-family: Ophian;
+            font-style: normal;
+            src: url('data:font/woff2;base64,') format("woff2");
+        }
+
+        body {
+            font-family: var(--font-stack-primary);
+            font-size: var(--font-size-body);
+            line-height: var(--font-line-height-body);
+            letter-spacing: var(--letter-spacing-body);
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%23fff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23fff" stop-opacity="0"/></radialGradient></defs><circle cx="200" cy="300" r="100" fill="url(%23a)"/><circle cx="800" cy="200" r="150" fill="url(%23a)"/><circle cx="600" cy="700" r="120" fill="url(%23a)"/></svg>') no-repeat center;
+            background-size: cover;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-stack-secondary);
+            font-size: clamp(36px, 6vw, var(--font-size-h1));
+            line-height: var(--font-line-height-h1);
+            letter-spacing: var(--letter-spacing-h1);
+            color: white;
+            margin-bottom: 20px;
+            font-weight: 900;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-text .tagline {
+            font-size: 20px;
+            color: rgba(255,255,255,0.9);
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-container {
+            position: relative;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));
+        }
+
+        .download-section {
+            background: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .download-section h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            margin-bottom: 50px;
+            color: #333;
+        }
+
+        .download-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .download-card {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--spring-true), var(--summer-soft), var(--autumn-true), var(--winter-bright));
+        }
+
+        .download-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+        }
+
+        .download-card h3 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h3);
+            line-height: var(--font-line-height-h3);
+            letter-spacing: var(--letter-spacing-h3);
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .download-card .browsers {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .browser-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            background: #666;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+
+        .chrome { background: #4285f4; }
+        .safari { background: #1b88ca; }
+        .firefox { background: #ff9500; }
+        .edge { background: #0078d4; }
+        .ios { background: #007aff; }
+        .android { background: #3ddc84; }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .features-section {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            padding: 100px 0;
+            color: white;
+        }
+
+        .features-section h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+
+        .feature-card {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 24px;
+        }
+
+        .feature-card h3 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h4);
+            line-height: var(--font-line-height-h4);
+            letter-spacing: var(--letter-spacing-h4);
+            margin-bottom: 15px;
+        }
+
+        .seasons-section {
+            background: white;
+            padding: 100px 0;
+        }
+
+        .seasons-section h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            text-align: center;
+            margin-bottom: 60px;
+            color: #333;
+        }
+
+        .seasons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .season-card {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border-left: 5px solid;
+        }
+
+        .season-card.spring { border-left-color: var(--spring-true); }
+        .season-card.summer { border-left-color: var(--summer-soft); }
+        .season-card.autumn { border-left-color: var(--autumn-true); }
+        .season-card.winter { border-left-color: var(--winter-bright); }
+
+        .season-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .season-emoji {
+            font-size: 40px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .season-card h3 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h4);
+            line-height: var(--font-line-height-h4);
+            letter-spacing: var(--letter-spacing-h4);
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .cta-section {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 80px 0;
+            text-align: center;
+            color: white;
+        }
+
+        .cta-section h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            margin-bottom: 30px;
+        }
+
+        .cta-section p {
+            font-size: 18px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+        }
+
+        .cta-btn {
+            background: white;
+            color: #667eea;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255,255,255,0.4);
+        }
+
+        @media (max-width: 768px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+                gap: 40px;
+            }
+            
+            .logo {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .download-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .features-grid,
+            .seasons-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-color {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: floatAround 15s linear infinite;
+        }
+
+        .floating-color:nth-child(1) {
+            width: 20px;
+            height: 20px;
+            background: var(--spring-bright);
+            top: 20%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-color:nth-child(2) {
+            width: 15px;
+            height: 15px;
+            background: var(--summer-light);
+            top: 60%;
+            right: 20%;
+            animation-delay: -5s;
+        }
+
+        .floating-color:nth-child(3) {
+            width: 25px;
+            height: 25px;
+            background: var(--autumn-deep);
+            bottom: 30%;
+            left: 20%;
+            animation-delay: -10s;
+        }
+
+        @keyframes floatAround {
+            0% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-20px) translateX(10px); }
+            50% { transform: translateY(-10px) translateX(20px); }
+            75% { transform: translateY(-30px) translateX(-10px); }
+            100% { transform: translateY(0px) translateX(0px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-color"></div>
+        <div class="floating-color"></div>
+        <div class="floating-color"></div>
+    </div>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1>Palette Match</h1>
+                    <p class="tagline">Your Shopping Color Assistant</p>
+                    <p style="font-size: 18px; color: rgba(255,255,255,0.8); line-height: 1.6;">
+                        Add your seasonal color palette to any webstore for complexion-perfect shopping. Look fabulous with minimal effort!
+                    </p>
+                </div>
+                <div class="hero-visual">
+                    <div class="logo-container">
+                        <svg class="logo" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <filter id="glow">
+                                    <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                                    <feMerge> 
+                                        <feMergeNode in="coloredBlur"/>
+                                        <feMergeNode in="SourceGraphic"/>
+                                    </feMerge>
+                                </filter>
+                            </defs>
+                            <circle cx="200" cy="200" r="190" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+                            <circle cx="200" cy="200" r="150" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+                            
+                            <!-- Spring segments -->
+                            <path d="M 200 50 A 150 150 0 0 1 306.066 143.934 L 200 200 Z" fill="#FFD700" filter="url(#glow)"/>
+                            <path d="M 306.066 143.934 A 150 150 0 0 1 306.066 256.066 L 200 200 Z" fill="#90EE90" filter="url(#glow)"/>
+                            
+                            <!-- Summer segments -->
+                            <path d="M 306.066 256.066 A 150 150 0 0 1 200 350 L 200 200 Z" fill="#87CEEB" filter="url(#glow)"/>
+                            <path d="M 200 350 A 150 150 0 0 1 93.934 256.066 L 200 200 Z" fill="#DDA0DD" filter="url(#glow)"/>
+                            
+                            <!-- Autumn segments -->
+                            <path d="M 93.934 256.066 A 150 150 0 0 1 93.934 143.934 L 200 200 Z" fill="#CD853F" filter="url(#glow)"/>
+                            <path d="M 93.934 143.934 A 150 150 0 0 1 200 50 L 200 200 Z" fill="#FF69B4" filter="url(#glow)"/>
+                            
+                            <circle cx="200" cy="200" r="40" fill="white" filter="url(#glow)"/>
+                            <text x="200" y="210" text-anchor="middle" fill="#333" font-family="Lato" font-size="14" font-weight="bold">PM</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="download-section">
+        <div class="container">
+            <h2>Get Palette Match Now</h2>
+            <div class="download-grid">
+                <div class="download-card">
+                    <h3>Browser Extensions</h3>
+                    <div class="browsers">
+                        <div class="browser-icon chrome">CH</div>
+                        <!-- <div class="browser-icon safari">SF</div>
+                        <div class="browser-icon firefox">FF</div>
+                        <div class="browser-icon edge">ED</div> -->
+                    </div>
+                    <button class="download-btn" onclick="window.location.href='extensions.html'">Download Extension</button>
+                </div>
+                <!-- <div class="download-card">
+                    <h3>Mobile Apps</h3>
+                    <div class="browsers">
+                        <div class="browser-icon ios">iOS</div>
+                        <div class="browser-icon android">AND</div>
+                    </div>
+                    <button class="download-btn" onclick="window.location.href='mobile_download.html'">Download App</button>
+                </div> -->
+            </div>
+        </div>
+    </section>
+
+    <section class="features-section">
+        <div class="container">
+            <h2>Why You Need Palette Match</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Save Money</h3>
+                    <p>Stop wasting money on items that look "off" once you get them home. When you shop within your palette, everything harmonizes beautifully.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🌱</div>
+                    <h3>Shop Sustainably</h3>
+                    <p>Build a more sustainable wardrobe by purchasing only what truly works for you. Fewer returns, less waste.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⏱️</div>
+                    <h3>Save Time</h3>
+                    <p>No more endless browsing or second-guessing. Quickly identify colors that complement your natural features.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💕</div>
+                    <h3>Boost Confidence</h3>
+                    <p>Wearing colors that harmonize with your natural coloring makes you look healthier, more vibrant, and authentically you.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">👗</div>
+                    <h3>Cohesive Wardrobe</h3>
+                    <p>When everything works with your coloring, pieces naturally coordinate, creating endless mix-and-match options.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Color Eyedropper</h3>
+                    <p>Select any color from items you're browsing to check how well it matches your personal palette.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="seasons-section">
+        <div class="container">
+            <h2>Discover Your Color Season</h2>
+            <div class="seasons-grid">
+                <div class="season-card spring">
+                    <span class="season-emoji">🌸</span>
+                    <h3>Spring</h3>
+                    <p>Warm & Clear - Light, bright, and fresh colors like peach, mint, coral, and golden yellows.</p>
+                </div>
+                <div class="season-card summer">
+                    <span class="season-emoji">☀️</span>
+                    <h3>Summer</h3>
+                    <p>Cool & Soft - Cool, muted tones like dusty pink, baby blue, lavender, and soft navy.</p>
+                </div>
+                <div class="season-card autumn">
+                    <span class="season-emoji">🍁</span>
+                    <h3>Autumn</h3>
+                    <p>Warm & Muted - Deep, rich, warm colors like rust, mustard, forest green, and olive.</p>
+                </div>
+                <div class="season-card winter">
+                    <span class="season-emoji">❄️</span>
+                    <h3>Winter</h3>
+                    <p>Cool & Bold - Cool, clear, high contrast colors like pure white, royal blue, and crimson.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="container">
+            <h2>Transform Your Wardrobe Today</h2>
+            <p>Discover the power of shopping with your seasonal color palette and transform your wardrobe—one perfectly matched item at a time!</p>
+            <button class="cta-btn" onclick="scrollToDownload()">Get Started Now</button>
+        </div>
+    </section>
+
+    <script>
+
+        function scrollToDownload() {
+            document.querySelector('.download-section').scrollIntoView({ 
+                behavior: 'smooth' 
+            });
+        }
+
+        // Add some interactive animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Parallax effect for hero section
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallax = document.querySelector('.hero::before');
+                if (parallax) {
+                    const speed = scrolled * 0.5;
+                    parallax.style.transform = `translateY(${speed}px)`;
+                }
+            });
+
+            // Animate feature cards on scroll
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all cards for animation
+            document.querySelectorAll('.feature-card, .season-card, .download-card').forEach(card => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

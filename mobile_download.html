@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Palette Match - Mobile Apps</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-size-body: 14px;
+            --font-size-h1: 48px;
+            --font-size-h2: 40px;
+            --font-size-h3: 24px;
+            --font-size-h4: 20px;
+            --font-line-height-body: 1.57;
+            --font-line-height-h1: 1.2;
+            --font-line-height-h2: 1.25;
+            --font-line-height-h3: 1.33;
+            --font-line-height-h4: 1.4;
+            --letter-spacing-h1: 0.1em;
+            --letter-spacing-h2: 0.1em;
+            --letter-spacing-h3: 0.1em;
+            --letter-spacing-h4: 0.1em;
+            --letter-spacing-body: 0.05em;
+            --font-stack-primary: Lato, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-stack-secondary: "Ophian", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-stack-primary);
+            font-size: var(--font-size-body);
+            line-height: var(--font-line-height-body);
+            letter-spacing: var(--letter-spacing-body);
+            color: #333;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h1);
+            line-height: var(--font-line-height-h1);
+            letter-spacing: var(--letter-spacing-h1);
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .platforms-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+
+        .platform-card {
+            background: white;
+            border-radius: 25px;
+            padding: 50px 40px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+        }
+
+        .platform-card.ios::before { 
+            background: linear-gradient(90deg, #007aff, #5ac8fa); 
+        }
+        
+        .platform-card.android::before { 
+            background: linear-gradient(90deg, #3ddc84, #4285f4); 
+        }
+
+        .platform-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 70px rgba(0,0,0,0.2);
+        }
+
+        .platform-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            position: relative;
+        }
+
+        .ios .platform-icon { 
+            background: linear-gradient(135deg, #007aff, #5ac8fa);
+        }
+        
+        .android .platform-icon { 
+            background: linear-gradient(135deg, #3ddc84, #4285f4);
+        }
+
+        .platform-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 25px;
+            background: linear-gradient(45deg, rgba(255,255,255,0.3), transparent);
+        }
+
+        .platform-card h3 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h3);
+            line-height: var(--font-line-height-h3);
+            letter-spacing: var(--letter-spacing-h3);
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .platform-description {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 16px;
+        }
+
+        .version-info {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .version-info .label {
+            color: #666;
+        }
+
+        .version-info .value {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 18px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 6px 20px rgba(240, 147, 251, 0.4);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(240, 147, 251, 0.6);
+        }
+
+        .qr-code {
+            width: 100px;
+            height: 100px;
+            background: #f0f0f0;
+            border-radius: 12px;
+            margin: 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            color: #666;
+            border: 2px dashed #ddd;
+        }
+
+        .features-mobile {
+            background: rgba(255,255,255,0.95);
+            border-radius: 25px;
+            padding: 50px;
+            margin-top: 50px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+        }
+
+        .features-mobile h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            margin-bottom: 40px;
+            color: #333;
+            text-align: center;
+        }
+
+        .mobile-features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .mobile-feature {
+            background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+            border-radius: 20px;
+            padding: 30px 25px;
+            text-align: center;
+            border-left: 5px solid;
+            transition: all 0.3s ease;
+        }
+
+        .mobile-feature:nth-child(1) { border-left-color: #f093fb; }
+        .mobile-feature:nth-child(2) { border-left-color: #f5576c; }
+        .mobile-feature:nth-child(3) { border-left-color: #667eea; }
+        .mobile-feature:nth-child(4) { border-left-color: #764ba2; }
+        .mobile-feature:nth-child(5) { border-left-color: #3ddc84; }
+        .mobile-feature:nth-child(6) { border-left-color: #007aff; }
+
+        .mobile-feature:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        .mobile-feature-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .mobile-feature h4 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h4);
+            line-height: var(--font-line-height-h4);
+            letter-spacing: var(--letter-spacing-h4);
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .mobile-feature p {
+            color: #666;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .compatibility-section {
+            background: rgba(255,255,255,0.1);
+            border-radius: 25px;
+            padding: 40px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .compatibility-section h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .compatibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 25px;
+        }
+
+        .compatibility-item {
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .compatibility-item .icon {
+            font-size: 28px;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .compatibility-item .title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .compatibility-item .requirement {
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        .beta-notice {
+            background: linear-gradient(135deg, rgba(255,193,7,0.9), rgba(255,152,0,0.9));
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+            .platforms-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .features-mobile {
+                padding: 30px 20px;
+            }
+            
+            .platform-card {
+                padding: 30px 25px;
+            }
+            
+            .back-btn {
+                position: static;
+                margin-bottom: 20px;
+                align-self: flex-start;
+            }
+        }
+
+        .floating-phone {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 8px 25px rgba(240, 147, 251, 0.4);
+            animation: bounce 2s infinite;
+            z-index: 100;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-phone">📱</div>
+    
+    <a href="#" onclick="history.back()" class="back-btn">
+        ← Back to Home
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Mobile Apps</h1>
+            <p>Get Palette Match on your phone for shopping on-the-go with your perfect color palette always at hand</p>
+        </div>
+
+        <div class="beta-notice">
+            🚀 Now Available! Download the full version and start shopping with confidence
+        </div>
+
+        <div class="platforms-grid">
+            <div class="platform-card ios">
+                <div class="platform-icon">🍎</div>
+                <h3>iPhone & iPad</h3>
+                <p class="platform-description">
+                    Native iOS app with seamless integration into Safari and other browsers. 
+                    Perfect for shopping while on-the-go with Touch ID and Face ID support.
+                </p>
+                
+                <div class="version-info">
+                    <span class="label">Latest Version:</span>
+                    <span class="value">v2.1.0</span>
+                </div>
+                
+                <div class="version-info">
+                    <span class="label">Size:</span>
+                    <span class="value">12.4 MB</span>
+                </div>
+                
+                <div class="version-info">
+                    <span class="label">Rating:</span>
+                    <span class="value">⭐⭐⭐⭐⭐ 4.8</span>
+                </div>
+
+                <div class="qr-code">
+                    📱 QR Code
+                </div>
+                
+                <button class="download-btn" onclick="downloadiOS()">
+                    📱 Download for iOS
+                </button>
+            </div>
+
+            <div class="platform-card android">
+                <div class="platform-icon">🤖</div>
+                <h3>Android</h3>
+                <p class="platform-description">
+                    Full-featured Android app with widget support and deep integration with Chrome. 
+                    Works across all Android devices with fingerprint authentication.
+                </p>
+                
+                <div class="version-info">
+                    <span class="label">Latest Version:</span>
+                    <span class="value">v2.0.3</span>
+                </div>
+                
+                <div class="version-info">
+                    <span class="label">Size:</span>
+                    <span class="value">8.7 MB</span>
+                </div>
+                
+                <div class="version-info">
+                    <span class="label">Rating:</span>
+                    <span class="value">⭐⭐⭐⭐⭐ 4.6</span>
+                </div>
+
+                <div class="qr-code">
+                    📱 QR Code
+                </div>
+                
+                <button class="download-btn" onclick="downloadAndroid()">
+                    📱 Download for Android
+                </button>
+            </div>
+        </div>
+
+        <div class="features-mobile">
+            <h2>Mobile-Exclusive Features</h2>
+            <div class="mobile-features-grid">
+                <div class="mobile-feature">
+                    <span class="mobile-feature-icon">📸</span>
+                    <h4>Camera Color Capture</h4>
+                    <p>Point your camera at any item in-store to instantly check if it matches your palette</p>
+                </div>
+                <div class="mobile-feature">
+                    <span class="mobile-feature-icon">📍</span>
+                    <h4>Store Locator</h4>
+                    <p>Find nearby stores that carry items in your color palette with GPS integration</p>
+                </div>
+                <div class="mobile-feature">
+                    <span class="mobile-feature-icon">🔔</span>
+                    <h4>Smart Notifications</h4>
+                    <p>Get notified when items in your palette go on sale at your favorite stores</p>
+                </div>
+                <div class="mobile-feature">
+                    <span class="mobile-feature-icon">👗</span>
+                    <h4>Outfit Planner</h4>
+                    <p>Plan complete outfits with your palette colors and save them for later</p>
+                </div>
+                <div class="mobile-feature">
+                    <span class="mobile-feature-icon">📱</span>
+                    <h4>Widget Support</h4>
+                    <p>Quick access to your color palette right from your home screen</p>
+                </div>
+                <div class="mobile-feature">
+                    <span class="mobile-feature-icon">☁️</span>
+                    <h4>Cloud Sync</h4>
+                    <p>Sync your palette and preferences across all your devices seamlessly</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="compatibility-section">
+            <h2>Device Compatibility</h2>
+            <div class="compatibility-grid">
+                <div class="compatibility-item">
+                    <span class="icon">📱</span>
+                    <div class="title">iPhone</div>
+                    <div class="requirement">iOS 14.0 or later</div>
+                </div>
+                <div class="compatibility-item">
+                    <span class="icon">📱</span>
+                    <div class="title">iPad</div>
+                    <div class="requirement">iPadOS 14.0 or later</div>
+                </div>
+                <div class="compatibility-item">
+                    <span class="icon">🤖</span>
+                    <div class="title">Android Phone</div>
+                    <div class="requirement">Android 8.0 (API 26)</div>
+                </div>
+                <div class="compatibility-item">
+                    <span class="icon">📱</span>
+                    <div class="title">Android Tablet</div>
+                    <div class="requirement">Android 8.0 (API 26)</div>
+                </div>
+                <div class="compatibility-item">
+                    <span class="icon">⌚</span>
+                    <div class="title">Apple Watch</div>
+                    <div class="requirement">watchOS 7.0 or later</div>
+                </div>
+                <div class="compatibility-item">
+                    <span class="icon">⌚</span>
+                    <div class="title">Wear OS</div>
+                    <div class="requirement">Wear OS 2.0+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadiOS() {
+            // Replace with your actual App Store URL
+            window.open('https://apps.apple.com/app/palette-match/YOUR_APP_ID', '_blank');
+        }
+
+        function downloadAndroid() {
+            // Replace with your actual Google Play Store URL
+            window.open('https://play.google.com/store/apps/details?id=com.palettematch.app', '_blank');
+        }
+
+        // Animate cards on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.platform-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.8s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 300);
+            });
+
+            // Animate feature cards
+            const features = document.querySelectorAll('.mobile-feature');
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            features.forEach(feature => {
+                feature.style.opacity = '0';
+                feature.style.transform = 'translateY(20px)';
+                feature.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(feature);
+            });
+        });
+
+        // Add some interactivity to QR codes
+        document.querySelectorAll('.qr-code').forEach(qr => {
+            qr.addEventListener('click', function() {
+                this.style.background = '#e9ecef';
+                this.innerHTML = '📱 Scan Me!';
+                setTimeout(() => {
+                    this.style.background = '#f0f0f0';
+                    this.innerHTML = '📱 QR Code';
+                }, 2000);
+            });
+        });
+    </script>
+</body>
+</html>

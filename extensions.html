@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Palette Match - Browser Extensions</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --font-size-body: 14px;
+            --font-size-h1: 48px;
+            --font-size-h2: 40px;
+            --font-size-h3: 24px;
+            --font-size-h4: 20px;
+            --font-line-height-body: 1.57;
+            --font-line-height-h1: 1.2;
+            --font-line-height-h2: 1.25;
+            --font-line-height-h3: 1.33;
+            --font-line-height-h4: 1.4;
+            --letter-spacing-h1: 0.1em;
+            --letter-spacing-h2: 0.1em;
+            --letter-spacing-h3: 0.1em;
+            --letter-spacing-h4: 0.1em;
+            --letter-spacing-body: 0.05em;
+            --font-stack-primary: Lato, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-stack-secondary: "Ophian", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            font-family: var(--font-stack-primary);
+            font-size: var(--font-size-body);
+            line-height: var(--font-line-height-body);
+            letter-spacing: var(--letter-spacing-body);
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .header h1 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h1);
+            line-height: var(--font-line-height-h1);
+            letter-spacing: var(--letter-spacing-h1);
+            color: white;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 18px;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .browsers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .browser-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .browser-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+        }
+
+        .browser-card.chrome::before { background: #4285f4; }
+        .browser-card.safari::before { background: #1b88ca; }
+        .browser-card.firefox::before { background: #ff9500; }
+        .browser-card.edge::before { background: #0078d4; }
+
+        .browser-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+        }
+
+        .browser-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .chrome .browser-icon { background: linear-gradient(135deg, #4285f4, #34a853); }
+        .safari .browser-icon { background: linear-gradient(135deg, #1b88ca, #0066cc); }
+        .firefox .browser-icon { background: linear-gradient(135deg, #ff9500, #ff6611); }
+        .edge .browser-icon { background: linear-gradient(135deg, #0078d4, #106ebe); }
+
+        .browser-card h3 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h3);
+            line-height: var(--font-line-height-h3);
+            letter-spacing: var(--letter-spacing-h3);
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .browser-card p {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            width: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+        }
+
+        .download-btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .installation-guide {
+            background: rgba(255,255,255,0.95);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+        }
+
+        .installation-guide h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin: 0 auto 15px;
+        }
+
+        .step h4 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h4);
+            line-height: var(--font-line-height-h4);
+            letter-spacing: var(--letter-spacing-h4);
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .features-preview {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 40px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .features-preview h2 {
+            font-family: var(--font-stack-secondary);
+            font-size: var(--font-size-h2);
+            line-height: var(--font-line-height-h2);
+            letter-spacing: var(--letter-spacing-h2);
+            margin-bottom: 30px;
+            color: white;
+            text-align: center;
+        }
+
+        .features-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: white;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            width: 40px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .browsers-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 36px;
+            }
+            
+            .installation-guide {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="index.html" onclick="history.back()" class="back-btn">
+        ← Back to Home
+    </a>
+
+    <div class="container">
+        <div class="header">
+            <h1>Browser Extensions</h1>
+            <p>Install Palette Match extension for your favorite browser and start shopping with your perfect color palette</p>
+        </div>
+
+        <div class="browsers-grid">
+            <div class="browser-card chrome">
+                <div class="browser-icon">CH</div>
+                <h3>Google Chrome</h3>
+                <p>Most popular browser with full extension support. Perfect for online shopping across all major retailers.</p>
+                <button class="download-btn" onclick="downloadChrome()">Install Chrome Extension</button>
+            </div>
+
+            <!-- <div class="browser-card safari">
+                <div class="browser-icon">SF</div>
+                <h3>Safari</h3>
+                <p>Native Mac browser with excellent performance. Seamlessly integrates with your macOS experience.</p>
+                <button class="download-btn" onclick="downloadSafari()">Install Safari Extension</button>
+            </div>
+
+            <div class="browser-card firefox">
+                <div class="browser-icon">FF</div>
+                <h3>Mozilla Firefox</h3>
+                <p>Privacy-focused browser with robust extension ecosystem. Great for secure online shopping.</p>
+                <button class="download-btn" onclick="downloadFirefox()">Install Firefox Extension</button>
+            </div>
+
+            <div class="browser-card edge">
+                <div class="browser-icon">ED</div>
+                <h3>Microsoft Edge</h3>
+                <p>Modern Windows browser with excellent performance and shopping features built-in.</p>
+                <button class="download-btn" onclick="downloadEdge()">Install Edge Extension</button>
+            </div> -->
+        </div>
+
+        <div class="installation-guide">
+            <h2>How to Install</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h4>Click Download</h4>
+                    <p>Choose your browser and click the download button above</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h4>Add Extension</h4>
+                    <p>You'll be redirected to your browser's extension store</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h4>Set Your Palette</h4>
+                    <p>Select your seasonal palette in the side panel</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h4>Start Shopping</h4>
+                    <p>Visit any online store and see your color matches!</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="features-preview">
+            <h2>Extension Features</h2>
+            <div class="features-list">
+                <div class="feature-item">
+                    <div class="feature-icon">🎨</div>
+                    <div>
+                        <strong>Color Eyedropper Tool</strong><br>
+                        Select any color from clothing items to check palette compatibility
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📱</div>
+                    <div>
+                        <strong>Customizable Panel</strong><br>
+                        Position and resize the panel to fit your browsing style
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">💾</div>
+                    <div>
+                        <strong>Maybe List</strong><br>
+                        Save potential purchases to revisit later
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🔒</div>
+                    <div>
+                        <strong>100% Private</strong><br>
+                        All data stored locally, no server connections
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📸</div>
+                    <div>
+                        <strong>Photo Matching (Premium)</strong><br>
+                        Drag your photo around clothing to see how it fits you
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">🌈</div>
+                    <div>
+                        <strong>12 Seasonal Palettes</strong><br>
+                        Complete color analysis for all four seasons
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function downloadChrome() {
+            // Replace with your actual Chrome Web Store URL
+            window.open('https://chromewebstore.google.com/detail/palette-match/ingimnijpealcaokdmhjpmdcenmlmgkn', '_blank');
+        }
+
+        function downloadSafari() {
+            // Replace with your actual Safari extension URL
+            window.open('https://apps.apple.com/app/palette-match-safari-extension/YOUR_APP_ID', '_blank');
+        }
+
+        function downloadFirefox() {
+            // Replace with your actual Firefox Add-ons URL
+            window.open('https://addons.mozilla.org/addon/palette-match/', '_blank');
+        }
+
+        function downloadEdge() {
+            // Replace with your actual Microsoft Edge Add-ons URL
+            window.open('https://microsoftedge.microsoft.com/addons/detail/palette-match/YOUR_EXTENSION_ID', '_blank');
+        }
+
+        // Animate cards on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.browser-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                setTimeout(() => {
+                    card.style.transition = 'all 0.6s ease';
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 200);
+            });
+        });
+    </script>
+</body>
+</html>
