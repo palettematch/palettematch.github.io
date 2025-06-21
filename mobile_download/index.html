@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
 
     <!-- Open Graph -->
     <meta property="og:title" content="Palette Match - Look fabulous with minimal effort!" />
@@ -42,7 +42,7 @@
             --letter-spacing-h4: 0.1em;
             --letter-spacing-body: 0.05em;
             --font-stack-primary: Lato, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            --font-stack-secondary: "Ophian", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-stack-secondary: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
         }
 
         body {
@@ -51,7 +51,8 @@
             line-height: var(--font-line-height-body);
             letter-spacing: var(--letter-spacing-body);
             color: #333;
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            /* background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); */
+            background: linear-gradient(135deg, #7be2ff 0%, #009dff 100%);
             min-height: 100vh;
         }
 
@@ -147,8 +148,8 @@
 
         .platform-icon {
             width: 120px;
-            height: 120px;
-            margin: 0 auto 30px;
+            height: 60px;
+            margin: 22px auto 30px;
             border-radius: 25px;
             display: flex;
             align-items: center;
@@ -159,13 +160,13 @@
             position: relative;
         }
 
-        .ios .platform-icon { 
+        /* .ios .platform-icon { 
             background: linear-gradient(135deg, #007aff, #5ac8fa);
         }
         
         .android .platform-icon { 
             background: linear-gradient(135deg, #3ddc84, #4285f4);
-        }
+        } */
 
         .platform-icon::after {
             content: '';
@@ -212,7 +213,8 @@
         }
 
         .download-btn {
-            background: linear-gradient(135deg, #f093fb, #f5576c);
+            /* background: linear-gradient(135deg, #f093fb, #f5576c); */
+            background: linear-gradient(135deg, #7be2ff, #009dff);
             color: white;
             padding: 18px 35px;
             border: none;
@@ -284,8 +286,10 @@
             transition: all 0.3s ease;
         }
 
-        .mobile-feature:nth-child(1) { border-left-color: #f093fb; }
-        .mobile-feature:nth-child(2) { border-left-color: #f5576c; }
+        /* .mobile-feature:nth-child(1) { border-left-color: #f093fb; }
+        .mobile-feature:nth-child(2) { border-left-color: #f5576c; } */
+        .mobile-feature:nth-child(1) { border-left-color: #7be2ff; }
+        .mobile-feature:nth-child(2) { border-left-color: #009dff; }
         .mobile-feature:nth-child(3) { border-left-color: #667eea; }
         .mobile-feature:nth-child(4) { border-left-color: #764ba2; }
         .mobile-feature:nth-child(5) { border-left-color: #3ddc84; }
@@ -406,7 +410,8 @@
             right: 30px;
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #f093fb, #f5576c);
+            /* background: linear-gradient(135deg, #f093fb, #f5576c); */
+            background: linear-gradient(135deg, #7be2ff, #009dff);
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -438,13 +443,13 @@
             <p>Get Palette Match on your phone for shopping on-the-go with your perfect color palette always at hand</p>
         </div>
 
-        <div class="beta-notice">
+        <!-- <div class="beta-notice">
             🚀 Now Available! Download the full version and start shopping with confidence
-        </div>
+        </div> -->
 
         <div class="platforms-grid">
             <div class="platform-card ios">
-                <div class="platform-icon">🍎</div>
+                <div class="platform-icon"><img src="../images/ios.png" width="50px" /></div>
                 <h3>iPhone & iPad</h3>
                 <p class="platform-description">
                     Native iOS app with seamless integration into Safari and other browsers. 
@@ -476,7 +481,7 @@
             </div>
 
             <div class="platform-card android">
-                <div class="platform-icon">🤖</div>
+                <div class="platform-icon"><img src="../images/android.png" width="50px" /></div>
                 <h3>Android</h3>
                 <p class="platform-description">
                     Full-featured Android app with widget support and deep integration with Chrome. 
