@@ -25,6 +25,13 @@
             box-sizing: border-box;
         }
 
+        @font-face {
+            font-display: swap;
+            font-family: Ophian;
+            font-style: normal;
+            src: url('fonts/ophian-regular.woff2') format("woff2");
+        }
+
         :root {
             --font-size-body: 14px;
             --font-size-h1: 48px;
@@ -48,7 +55,8 @@
             --letter-spacing-h6: 0.1em;
             --letter-spacing-body: 0.05em;
             --font-stack-primary: Lato, "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            --font-stack-secondary: "Ophian", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-stack-secondary: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            --font-stack-tertiary: "Ophian", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
             
             --spring-light: #FFB6C1;
             --spring-true: #FFD700;
@@ -62,13 +70,6 @@
             --winter-deep: #191970;
             --winter-true: #0000FF;
             --winter-bright: #FF1493;
-        }
-
-        @font-face {
-            font-display: swap;
-            font-family: Ophian;
-            font-style: normal;
-            src: url('data:font/woff2;base64,') format("woff2");
         }
 
         body {
@@ -122,9 +123,10 @@
         }
 
         .hero-text h1 {
-            font-family: var(--font-stack-secondary);
+            font-family: var(--font-stack-tertiary);
             font-size: clamp(36px, 6vw, var(--font-size-h1));
             line-height: var(--font-line-height-h1);
+            text-transform: uppercase;
             letter-spacing: var(--letter-spacing-h1);
             color: white;
             margin-bottom: 20px;
